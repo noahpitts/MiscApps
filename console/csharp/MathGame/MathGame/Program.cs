@@ -97,7 +97,7 @@ namespace MathGame
                     Console.ReadKey();
                 }
             }
-            PrintMenuPage(Message.finalScore);
+            PrintMenuPage(Message.finalScore());
             Console.ReadKey();
         }
 
@@ -195,6 +195,13 @@ namespace MathGame
             string[] msg = { "Good Try " + Program.playerName + ",", "but " + response + " is not the correct answer", "Give it another try!!", "", "Press any key to continue" };
             return msg;
         }
+
+        public static string[] finalScore()
+        {
+            string[] msg = { "Awesome your final score is: " + Program.score, "", "Press any key to continue" };
+            return msg;
+        }
+            
     }
 
     class Question
