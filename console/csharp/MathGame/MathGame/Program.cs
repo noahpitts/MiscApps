@@ -158,7 +158,7 @@ namespace MathGame
 
         static string FormatCenter(string s)
         {
-            return s; //TODO: add text centering
+            return "    " + s; //TODO: add text centering
         }
 
     }
