@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace MathGame
 {
@@ -59,20 +60,39 @@ namespace MathGame
         static void PlayGame()
         {
             string response = "";
-            while (!Exit(response))
-            {
-                string answer = AskQuestion(difficulty);
-            }
-        }
+            bool correct = false;
+            Question question = new Question(difficulty);
 
-        static string[] AskQuestion(string difficulty)
-        {
-            string[] question
-            if (difficulty.Equals("easy"))
+            while (true)
             {
-                answer = 
+                if (correct)
+                {
+                    question = new Question(difficulty);
+                }
+
+                PrintGamePage(question.question);
+                response = Console.ReadLine();
+
+                if (!Exit(response))
+                {
+                    break;
+                }
+                else if (response.Equals(question.answer))
+                {
+                    correct = true;
+                    score += 3;
+                    PrintGamePage(Message.correctAnswer());
+                    Console.ReadKey();
+                }
+                else
+                {
+                    correct = false;
+                    score -= 1;
+                    PrintGamePage(Message.incorrectAnswer());
+                    Console.ReadKey();
+                }
+
             }
-            return "";
         }
 
         static bool Yes(string response)
@@ -105,7 +125,7 @@ namespace MathGame
 
         static void PrintScore()
         {
-            Console.WriteLine("                         {0} points                         ", score);
+            Console.WriteLine(FormatCenter(playerName + "has" + score + "points"));
         }
 
         static void PrintMenuPage(string[] content)
@@ -156,5 +176,30 @@ namespace MathGame
                                              "***",
                                              "Press any key to start the game" }; //TODO: enter directions here
 
+        public static string[] correctAnswer(string response)
+        {
+            string[] msg = { "Great Job " + Program.playerName + "!", response + "is the correct Answer", "You have just earned 3 points" };
+            return msg;
+        }
+
+        public static string[] incorrectAnswer(string response)
+        {
+            string[] msg = { "Good Try " + Program.playerName + ",", "but " + response + "is not the correct answer", "Give it another try!!" };
+            return msg;
+        }
+    }
+
+    class Question
+    {
+        public string[] question;
+        public string answer;
+
+        public Question(string difficulty)
+        {
+            question = new string[1];
+            question[0] = "6 x 9 =";
+
+            answer = "54";
+        }
     }
 }
