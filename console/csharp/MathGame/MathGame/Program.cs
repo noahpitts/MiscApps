@@ -2,7 +2,7 @@
 
 namespace MathGame
 {
-    class MathGame
+    class Program
     {
         public static string playerName;
         public static int score;
@@ -147,7 +147,7 @@ namespace MathGame
 
         public static string[] salutation()
         {
-            string[] sal = { "Hello " + MathGame.playerName + "!", "Do you need any directions to before you play?" };
+            string[] sal = { "Hello " + Program.playerName + "!", "Do you need any directions to before you play?" };
             return sal;
         }
 
