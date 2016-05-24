@@ -20,7 +20,6 @@ namespace MathGame
             Console.Title = "The Math Game";
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.BufferWidth = 60;
         }
 
         static void StartGame()
@@ -55,6 +54,7 @@ namespace MathGame
             {
                 Salutation();
             }
+            StartGame();
         }
 
         static void PlayGame()
@@ -63,7 +63,7 @@ namespace MathGame
             bool correct = false;
             Question question = new Question(difficulty);
 
-            while (true)
+            while (score < 100)
             {
                 if (correct)
                 {
@@ -73,26 +73,32 @@ namespace MathGame
                 PrintGamePage(question.question);
                 response = Console.ReadLine();
 
-                if (!Exit(response))
+                if (Exit(response))
                 {
-                    break;
+                    PrintGamePage(Message.exit);
+                    response = Console.ReadLine();
+                    if (Yes(response))
+                    {
+                        break;
+                    }
                 }
                 else if (response.Equals(question.answer))
                 {
                     correct = true;
                     score += 3;
-                    PrintGamePage(Message.correctAnswer());
+                    PrintGamePage(Message.correctAnswer(response));
                     Console.ReadKey();
                 }
                 else
                 {
                     correct = false;
                     score -= 1;
-                    PrintGamePage(Message.incorrectAnswer());
+                    PrintGamePage(Message.incorrectAnswer(response));
                     Console.ReadKey();
                 }
-
             }
+            PrintMenuPage(Message.finalScore);
+            Console.ReadKey();
         }
 
         static bool Yes(string response)
@@ -125,7 +131,7 @@ namespace MathGame
 
         static void PrintScore()
         {
-            Console.WriteLine(FormatCenter(playerName + "has" + score + "points"));
+            Console.WriteLine(FormatCenter(playerName + " has " + score + " points"));
         }
 
         static void PrintMenuPage(string[] content)
@@ -174,17 +180,19 @@ namespace MathGame
         public static string[] directions = {"TODO: enter directions here",
                                              "Type EXIT or QUIT to return to the start page at any time",
                                              "***",
-                                             "Press any key to start the game" }; //TODO: enter directions here
+                                             "Press any key to start the game"}; //TODO: enter directions here
+
+        public static string[] exit = { "Are you sure you want to exit the current game?", "Your current score will be lost" };
 
         public static string[] correctAnswer(string response)
         {
-            string[] msg = { "Great Job " + Program.playerName + "!", response + "is the correct Answer", "You have just earned 3 points" };
+            string[] msg = { "Great Job " + Program.playerName + "!", response + " is the correct Answer", "You have just earned 3 points", "", "Press any key to continue" };
             return msg;
         }
 
         public static string[] incorrectAnswer(string response)
         {
-            string[] msg = { "Good Try " + Program.playerName + ",", "but " + response + "is not the correct answer", "Give it another try!!" };
+            string[] msg = { "Good Try " + Program.playerName + ",", "but " + response + " is not the correct answer", "Give it another try!!", "", "Press any key to continue" };
             return msg;
         }
     }
@@ -196,10 +204,20 @@ namespace MathGame
 
         public Question(string difficulty)
         {
-            question = new string[1];
-            question[0] = "6 x 9 =";
+            Random randomInt = new Random();
+            int a = 1;
+            int b = 1;
 
-            answer = "54";
+            if (difficulty.Equals("easy"))
+            {
+                a = randomInt.Next(1, 10);
+                b = randomInt.Next(1, 10);
+            }
+
+            question = new string[1];
+            question[0] = (a + " x " + b + " =");
+
+            answer = (a * b).ToString();
         }
     }
 }
