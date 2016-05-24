@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 
 namespace MathGame
 {
@@ -7,7 +6,7 @@ namespace MathGame
     {
         public static string playerName;
         public static int score;
-        public static string difficulty;
+        public static string difficulty; //TODO add difficulty selection
 
         static void Main()
         {
@@ -85,7 +84,7 @@ namespace MathGame
                 else if (response.Equals(question.answer))
                 {
                     correct = true;
-                    score += 3;
+                    score += 3; //TODO add points based off of difficulty of question
                     PrintGamePage(Message.correctAnswer(response));
                     Console.ReadKey();
                 }
@@ -173,7 +172,8 @@ namespace MathGame
 
         public static string[] salutation()
         {
-            string[] sal = { "Hello " + Program.playerName + "!", "Do you need any directions to before you play?" };
+            string[] sal = { "Hello " + Program.playerName + "!",
+                             "Do you need any directions to before you play?" };
             return sal;
         }
 
@@ -182,23 +182,33 @@ namespace MathGame
                                              "***",
                                              "Press any key to start the game"}; //TODO: enter directions here
 
-        public static string[] exit = { "Are you sure you want to exit the current game?", "Your current score will be lost" };
+        public static string[] exit = { "Are you sure you want to exit the current game?",
+                                        "Your current score will be lost" };
 
         public static string[] correctAnswer(string response)
         {
-            string[] msg = { "Great Job " + Program.playerName + "!", response + " is the correct Answer", "You have just earned 3 points", "", "Press any key to continue" };
+            string[] msg = { "Great Job " + Program.playerName + "!", response + " is the correct Answer",
+                             "You have just earned 3 points",
+                             "",
+                             "Press any key to continue" };
             return msg;
         }
 
         public static string[] incorrectAnswer(string response)
         {
-            string[] msg = { "Good Try " + Program.playerName + ",", "but " + response + " is not the correct answer", "Give it another try!!", "", "Press any key to continue" };
+            string[] msg = { "Good Try " + Program.playerName + ",",
+                             "but " + response + " is not the correct answer",
+                             "Give it another try!!",
+                             "",
+                             "Press any key to continue" };
             return msg;
         }
 
         public static string[] finalScore()
         {
-            string[] msg = { "Awesome your final score is: " + Program.score, "", "Press any key to continue" };
+            string[] msg = { "Your final score is: " + Program.score,
+                             "",
+                             "Press any key to continue" };
             return msg;
         }
             
